@@ -17,7 +17,7 @@ spec:
             - -c
             - |
               echo "Attempting to delete namespace '{{ .Values.namespaceToDelete }}'"
-              kubectl delete namespace {{ .Values.namespaceToDelete }} --wait=true
+              timeout 60s kubectl delete namespace {{ .Values.namespaceToDelete }} --wait=true
               if [ $? -eq 0 ]; then
                 echo "Namespace '{{ .Values.namespaceToDelete }}' deleted successfully."
                 exit 0
