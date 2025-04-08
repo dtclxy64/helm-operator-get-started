@@ -16,13 +16,13 @@ spec:
             - sh
             - -c
             - |
-              echo "Attempting to delete namespace '{{ .Values.namespaceToDelete }}'"
-              timeout 60s kubectl delete namespace {{ .Values.namespaceToDelete }} --wait=true
+              echo "Checking if namespace '{{ .Values.namespaceToCheck }}' exists..."
+              timeout 60s kubectl get namespace {{ .Values.namespaceToCheck }}
               if [ $? -eq 0 ]; then
-                echo "Namespace '{{ .Values.namespaceToDelete }}' deleted successfully."
+                echo "Namespace '{{ .Values.namespaceToCheck }}' exists. Hook succeeded."
                 exit 0
               else
-                echo "Failed to delete namespace '{{ .Values.namespaceToDelete }}'. Exiting."
+                echo "Namespace '{{ .Values.namespaceToCheck }}' not found. Hook failed."
                 exit 1
               fi
       restartPolicy: Never

@@ -4,7 +4,7 @@ replicaCount: 1
 logLevel: info
 backend: #http://backend-podinfo:9898/echo
 backends: []
-namespaceToDelete: ns-test
+namespaceToCheck: ns-test
 
 ui:
   color: "#34577c"
