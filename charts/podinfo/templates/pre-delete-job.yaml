@@ -10,7 +10,7 @@ spec:
     spec:
       serviceAccountName: {{ .Values.serviceAccountName | default "default" }}
       containers:
-        - name: delete-namespace-hook
+        - name: pre-delete-hook
           image: bitnami/kubectl:1.29
           command:
             - sh
