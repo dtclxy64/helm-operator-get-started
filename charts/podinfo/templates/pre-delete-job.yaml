@@ -8,8 +8,21 @@ metadata:
 spec:
   template:
     spec:
+      serviceAccountName: {{ .Values.serviceAccountName | default "default" }}
       containers:
-        - name: pre-delete-hook
-          image: alpine:3.19
-          command: ["sh", "-c", "echo 'Running pre-delete hook'; sleep 10; kubectl delete ns eli-test; echo 'Hook completed'"]
+        - name: delete-namespace-hook
+          image: bitnami/kubectl:1.29
+          command:
+            - sh
+            - -c
+            - |
+              echo "Attempting to delete namespace '{{ .Values.namespaceToDelete }}'"
+              kubectl delete namespace {{ .Values.namespaceToDelete }} --wait=true
+              if [ $? -eq 0 ]; then
+                echo "Namespace '{{ .Values.namespaceToDelete }}' deleted successfully."
+                exit 0
+              else
+                echo "Failed to delete namespace '{{ .Values.namespaceToDelete }}'. Exiting."
+                exit 1
+              fi
       restartPolicy: Never
